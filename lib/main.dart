@@ -38,34 +38,100 @@ class _MyAppState extends State<MyApp> {
               children: [
                 RepaintBoundary(
                   key: globalKey,
-                  child: Stack(
-                    alignment: Alignment.center,
+                  child: Row(
                     children: [
-                      Image.asset(
-                        'assets/insight_01.png',
-                        height: MediaQuery.sizeOf(context).height * 0.7,
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/insight_01.png',
+                            height: MediaQuery.sizeOf(context).height * 0.7,
+                          ),
+                          Center(
+                            child: Column(
+                              children: [
+                                Text(
+                                  factTitleController.text,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 35,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  descriptionController.text,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              factTitleController.text,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 35,
-                              ),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/insight_01.png',
+                            height: MediaQuery.sizeOf(context).height * 0.7,
+                          ),
+                          Center(
+                            child: Column(
+                              children: [
+                                Text(
+                                  factTitleController.text,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 35,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  descriptionController.text,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 20),
-                            Text(
-                              descriptionController.text,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w100,
-                              ),
+                          ),
+                        ],
+                      ),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/insight_01.png',
+                            height: MediaQuery.sizeOf(context).height * 0.7,
+                          ),
+                          Center(
+                            child: Column(
+                              children: [
+                                Text(
+                                  factTitleController.text,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 35,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  descriptionController.text,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

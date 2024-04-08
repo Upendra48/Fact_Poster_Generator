@@ -8,6 +8,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -20,8 +21,32 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final int itemCount = 3; // Number of items in the list
-  final GlobalKey globalKey = GlobalKey();
+  //fucntion to download the image
+Future<void> _downloadImage(GlobalKey key, String fileName) async {
+  final RenderRepaintBoundary? boundary =
+      key.currentContext!.findRenderObject() as RenderRepaintBoundary?;
+
+  final double pixelRatio = ui.window.devicePixelRatio; // Get device pixel ratio
+
+  final ui.Image image = await boundary!.toImage(pixelRatio: pixelRatio);
+
+  final ByteData? byteData =
+      await image.toByteData(format: ui.ImageByteFormat.png);
+
+  final Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+  final base64 = base64Encode(pngBytes);
+
+  AnchorElement(
+    href: 'data:application/octet-stream;base64,$base64',
+  )
+    ..setAttribute('download', '$fileName.png')
+    ..click();
+}
+
+
+  final GlobalKey globalKey1 = GlobalKey();
+
   final TextEditingController factTitleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   @override
@@ -37,101 +62,40 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               children: [
                 RepaintBoundary(
-                  key: globalKey,
-                  child: Row(
+                  key: globalKey1,
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/insight_01.png',
-                            height: MediaQuery.sizeOf(context).height * 0.7,
-                          ),
-                          Center(
-                            child: Column(
-                              children: [
-                                Text(
-                                  factTitleController.text,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 35,
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-                                Text(
-                                  descriptionController.text,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w100,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      Image.asset(
+                        'assets/1.jpg',
+                        height: MediaQuery.sizeOf(context).height /1.2,
                       ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/insight_01.png',
-                            height: MediaQuery.sizeOf(context).height * 0.7,
-                          ),
-                          Center(
-                            child: Column(
-                              children: [
-                                Text(
-                                  factTitleController.text,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 35,
-                                  ),
+                      Center(
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(0, 55, 0, 0),
+                          child: Column(
+                            children: [
+                              Text(
+                                factTitleController.text,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 35,
                                 ),
-                                const SizedBox(height: 20),
-                                Text(
+                              ),
+                              const SizedBox(height: 20),
+                              Container(
+                                child: Text(
                                   descriptionController.text,
                                   style: const TextStyle(
                                     color: Colors.black,
-                                    fontSize: 18,
+                                    fontSize: 40,
                                     fontWeight: FontWeight.w100,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/insight_01.png',
-                            height: MediaQuery.sizeOf(context).height * 0.7,
-                          ),
-                          Center(
-                            child: Column(
-                              children: [
-                                Text(
-                                  factTitleController.text,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 35,
-                                  ),
-                                ),
-                                const SizedBox(height: 20),
-                                Text(
-                                  descriptionController.text,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w100,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
@@ -150,11 +114,11 @@ class _MyAppState extends State<MyApp> {
                           fillColor: Colors.white,
                           border: OutlineInputBorder(),
                         ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -167,40 +131,45 @@ class _MyAppState extends State<MyApp> {
                           fillColor: Colors.white,
                           border: OutlineInputBorder(),
                         ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                         ),
+                        
                       ),
                     ],
                   ),
                 ),
                 TextButton(
                   onPressed: () async {
-                    final RenderRepaintBoundary? boundary =
-                        globalKey.currentContext!.findRenderObject()
-                            as RenderRepaintBoundary?;
+                    await _downloadImage(globalKey1, 'fact_poster.png');
 
-                    final ui.Image image = await boundary!.toImage(
-                      pixelRatio: 3.0,
-                    );
-
-                    final ByteData? byteData =
-                        await image.toByteData(format: ui.ImageByteFormat.png);
-
-                    final Uint8List pngBytes = byteData!.buffer.asUint8List();
-
-                    final base64 = base64Encode(pngBytes);
-
-                    AnchorElement(
-                      href: 'data:application/octet-stream;base64,$base64',
-                    )
-                      ..setAttribute('download',
-                          '${factTitleController.text.trim().replaceAll(' ', '_').toLowerCase()}.png')
-                      ..click();
                   },
+                  //async {
+                  //   final RenderRepaintBoundary? boundary =
+                  //       globalKey.currentContext!.findRenderObject()
+                  //           as RenderRepaintBoundary?;
+            
+                  //   final ui.Image image = await boundary!.toImage(
+                  //     pixelRatio: 3.0,
+                  //   );
+            
+                  //   final ByteData? byteData =
+                  //       await image.toByteData(format: ui.ImageByteFormat.png);
+            
+                  //   final Uint8List pngBytes = byteData!.buffer.asUint8List();
+            
+                  //   final base64 = base64Encode(pngBytes);
+            
+                  //   AnchorElement(
+                  //     href: 'data:application/octet-stream;base64,$base64',
+                  //   )
+                  //     ..setAttribute('download',
+                  //         '${factTitleController.text.trim().replaceAll(' ', '_').toLowerCase()}.png')
+                  //     ..click();
+                  // },
                   child: const Text(
                     "Save Image",
                     style: TextStyle(
